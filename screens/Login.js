@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
-import * as firebase from 'firebase'
+import Firebase from '../config/Firebase'
 
 class Login extends React.Component {
     constructor(props){
@@ -14,7 +14,7 @@ class Login extends React.Component {
     handleLogin = () => {
         const { email, password } = this.state
 
-        firebase.auth()
+        Firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => this.props.navigation.navigate('Profile'))
             .catch(error => console.log(error))
