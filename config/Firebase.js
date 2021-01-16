@@ -1,15 +1,22 @@
 import firebase from 'firebase'
+import 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBK6Yoich2RAogseRjEx764cYypYkW2y5E",
-    authDomain:"farmapp-3b786.firebaseapp.com",
-    projectId: "farmapp-3b786",
-    storageBucket: "farmapp-3b786.appspot.com",
-    messagingSenderId: "114425243222",
-    appId: "114425243222:web:a7e9b975ec32089480fdf7",
-    measurementId: "G-WXYG1K0RPY",
+    apiKey: "AIzaSyAG5EZGSbJV1uLVyoP6MEh4CEnb93AuL3Q",
+    authDomain: "farm-1fa0f.firebaseapp.com",
+    projectId: "farm-1fa0f",
+    storageBucket: "farm-1fa0f.appspot.com",
+    messagingSenderId: "914929589296",
+    appId: "1:914929589296:web:943417ad7d5518693621f5",
+    measurementId: "G-FPCBC4633S"
 }
 
 const Firebase = firebase.initializeApp(firebaseConfig)
+
+export const db = firebase.firestore()
+
+db.settings({
+    timestampsInSnapshots: true
+})
 
 export default Firebase

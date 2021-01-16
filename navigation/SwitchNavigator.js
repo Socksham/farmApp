@@ -6,7 +6,6 @@ import Profile from '../screens/Profile'
 
 const SwitchNavigator = createSwitchNavigator(
     {
-
         Login: {
             screen: Login
         },
