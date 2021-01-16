@@ -1,5 +1,5 @@
 export default {
-    firebaseConfig = {
+    firebaseConfig : {
         apiKey: "AIzaSyBK6Yoich2RAogseRjEx764cYypYkW2y5E",
         authDomain: "farmapp-3b786.firebaseapp.com",
         projectId: "farmapp-3b786",
