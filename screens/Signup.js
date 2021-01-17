@@ -4,6 +4,7 @@ import Firebase from '../config/Firebase'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateEmail, updatePassword, signup, updateRF } from '../actions/user'
+import DropDownPicker from 'react-native-dropdown-picker'
 
 class Signup extends React.Component {
     handleSignUp = () => {
