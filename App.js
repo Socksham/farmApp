@@ -1,54 +1,20 @@
 import React from 'react'
-import Login from './screens/Login'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
+
 import SwitchNavigator from './navigation/SwitchNavigator'
+import reducer from './reducers'
+
+const middleware = applyMiddleware(thunkMiddleware)
+const store = createStore(reducer, middleware)
 
 export default class App extends React.Component {
     render() {
-        return <SwitchNavigator />
+        return (
+            <Provider store={store}>
+                <SwitchNavigator />
+            </Provider>
+        )
     }
 }
-
-
-// import { StatusBar } from 'expo-status-bar';
-// import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
-// import Dashboard from './screens/Dashboard';
-// import Homepage from './screens/Homepage';
-// import * as firebase from 'firebase';
-// import apiKeys from './config/keys';
-
-// export default class App extends React.Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       isLoaded: true,
-//       isAuthenticationReady: false,
-//       isAuthenticated: false
-//     }
-//     //load firebase
-//     if(!firebase.default.apps.length){
-//       firebase.default.initializeApp(apiKeys.firebaseConfig)
-//       firebase.default.auth().onAuthStateChanged((user) => {
-//         this.setState({isAuthenticationReady: true})
-//         this.setState({isAuthenticated:!!user})
-//       })
-//     }
-//   }
-//   render(){
-//     return (
-//       <View style={styles.container}>
-//         {(this.state.isAuthenticated) ? <Dashboard /> : <Homepage />}
-//       </View>
-//     );
-//   }
-
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
