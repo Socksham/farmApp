@@ -15,6 +15,9 @@ import colors from "../config/colors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
 import MapsPage from "./MapsPage";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, login, getUser } from "../actions/user";
 
 const Tabs = createBottomTabNavigator();
 
@@ -28,10 +31,6 @@ function Camera(){
 
 function Maps(){
   return <MapsPage />
-}
-
-function Logout(){
-  return <LogoutPage />
 }
 
 class Routes extends React.Component {
@@ -48,46 +47,23 @@ class Routes extends React.Component {
   }
 }
 
-
-// export const Routes = ({}) => {
-//   return (
-    
-//     <Tabs.Navigator
-//       initialRouteName="Home"
-//       // screenOptions={({ route }) => ({
-//       //   tabBarIcon: ({ focused, color, size }) => {
-//       //     let iconName;
-//       //     if (route.name === "HomePage") {
-//       //       iconName = focused ? "camera" : "camera";
-//       //     }
-
-//         //   return <Ionicons name={iconName} size={size} color={color} />;
-//         // },
-//       // })}
-//       tabBarOptions={{
-//         activeTintColor: colors.secondary,
-//         inactiveTintColor: colors.primary,
-//       }}
-//     >
-//       <Tabs.Screen name="Home" component={Home} />
-//       {/* <Tabs.Screen
-//           options={{ title: "Camera" }}
-//           name="CameraStack"
-//           component={CameraStack}
-//         />
-//         <Tabs.Screen
-//           options={{ title: "Search Recipe" }}
-//           name="SearchRecipe"
-//           component={SearchRecipe}
-//         /> */}
-//     </Tabs.Navigator>
-//   );
-// };
-
 const styles = StyleSheet.create({
   navBar: {
     backgroundColor: colors.primary,
   },
 });
 
-export default Routes
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { updateEmail, updatePassword, updateRF, login, getUser },
+    dispatch
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

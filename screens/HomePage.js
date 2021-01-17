@@ -15,8 +15,11 @@ import {
 import { connect } from "react-redux";
 import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
+import { bindActionCreators } from "redux";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, login, getUser } from "../actions/user";
 
 class HomePage extends React.Component {
+
   render() {
     const POSTS = [
       {
@@ -129,6 +132,7 @@ class HomePage extends React.Component {
       <Fragment>
         <SafeAreaView style={{ flex: 0, backgroundColor: colors.primary }} />
         <SafeAreaView style={{ flex: 1 }}>
+          <Text>{this.props.user.rf}</Text>
           <View
             style={{
               height: "10%",
@@ -162,6 +166,7 @@ class HomePage extends React.Component {
             }}
           />
         </SafeAreaView>
+        
       </Fragment>
     );
   }
@@ -211,10 +216,18 @@ const styles = StyleSheet.create({
   },
 });
 
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { updateEmail, updatePassword, updateRF, login, getUser },
+    dispatch
+  );
+};
+
 const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
 };
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

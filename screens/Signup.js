@@ -12,7 +12,7 @@ import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { updateEmail, updatePassword, signup, updateRF } from "../actions/user";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress } from "../actions/user";
 
 class Signup extends React.Component {
   handleSignUp = () => {
@@ -46,6 +46,12 @@ class Signup extends React.Component {
           value={this.props.user.rf}
           onChangeText={(rf) => this.props.updateRF(rf)}
           placeholder="Restaurant Or Farm"
+        />
+        <TextInput
+          style={styles.inputBox}
+          value={this.props.user.address}
+          onChangeText={(address) => this.props.updateAddress(address)}
+          placeholder="Address"
         />
         <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
           <Text style={styles.buttonText}>Signup</Text>
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, updateRF, signup },
+    { updateEmail, updatePassword, updateRF, updateAddress, signup },
     dispatch
   );
 };
