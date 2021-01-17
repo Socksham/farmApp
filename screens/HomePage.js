@@ -17,7 +17,6 @@ import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
 
 class HomePage extends React.Component {
-
   render() {
     const POSTS = [
       {
