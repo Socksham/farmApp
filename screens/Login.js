@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateEmail, updatePassword, login, getUser } from '../actions/user'
+import { updateEmail, updatePassword, login, getUser, updateRF } from '../actions/user'
 import Firebase from '../config/Firebase'
 
 class Login extends React.Component {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({ updateEmail, updatePassword, login, getUser }, dispatch)
+	return bindActionCreators({ updateEmail, updatePassword, updateRF, login, getUser }, dispatch)
 }
 
 const mapStateToProps = state => {

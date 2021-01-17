@@ -2,6 +2,7 @@ import Firebase, {db} from '../config/Firebase'
 
 export const UPDATE_EMAIL = 'UPDATE_EMAIL'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
+export const UPDATE_RF = 'UPDATE_RF'
 export const LOGIN = 'LOGIN'
 export const SIGNUP = 'SIGNUP'
 
@@ -16,6 +17,13 @@ export const updatePassword = password => {
     return {
         type: UPDATE_PASSWORD,
         payload: password
+    }
+}
+
+export const updateRF = rf => {
+    return{
+        type: UPDATE_RF,
+        payload: rf
     }
 }
 
@@ -42,7 +50,7 @@ export const getUser = uid => {
 
             dispatch({ type: LOGIN, payload: user.data() })
         } catch (e) {
-            alert(e)
+            alert("GET USER PROBLEM")
         }
     }
 }
@@ -50,12 +58,13 @@ export const getUser = uid => {
 export const signup = () => {
     return async (dispatch, getState) => {
         try {
-            const { email, password } = getState().user
+            const { email, password, rf } = getState().user
             const response = await Firebase.auth().createUserWithEmailAndPassword(email, password)
             if (response.user.uid) {
                 const user = {
                     uid: response.user.uid,
-                    email: email
+                    email: email,
+                    rf: rf
                 }
 
                 db.collection('users')
