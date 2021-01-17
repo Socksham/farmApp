@@ -15,11 +15,8 @@ import colors from "../config/colors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
 import MapsPage from "./MapsPage";
-import LogoutPage from "./LogoutPage";
-
 
 const Tabs = createBottomTabNavigator();
-
 
 function Home() {
   return <HomePage />;
@@ -41,8 +38,7 @@ class Routes extends React.Component {
   render() {
     return (
        <NavigationContainer>
-        <Tabs.Navigator>
-            <Tabs.Screen name="Logout" component={Logout}/>
+        <Tabs.Navigator initialRouteName="Home">
             <Tabs.Screen name="Home" component={Home}/>
             <Tabs.Screen name="Camera" component={Camera}/>
             <Tabs.Screen name="Maps" component={Maps}/>
