@@ -1,15 +1,11 @@
 import React from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableOpacity, Text, Image } from 'react-native'
 import Firebase from '../config/Firebase'
-<<<<<<< HEAD
 import colors from "../config/colors.js"
-=======
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateEmail, updatePassword, signup, updateRF } from '../actions/user'
-import DropDownPicker from 'react-native-dropdown-picker'
 
->>>>>>> 85d0fa9f6c6713c102ec8778faa8259959c5ebbf
 class Signup extends React.Component {
     handleSignUp = () => {
         this.props.signup()
@@ -19,6 +15,7 @@ class Signup extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Image source = {require("../assets/logoCircle.png")} style = {{ height: '27%' }} />
                 <TextInput
                     style={styles.inputBox}
                     value={this.props.user.email}
