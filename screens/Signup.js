@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import Firebase from '../config/Firebase'
-
+import colors from "../config/colors.js"
 class Signup extends React.Component {
     constructor(props){
         super(props)
@@ -54,7 +54,7 @@ class Signup extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingVertical: 5,
         alignItems: 'center',
-        backgroundColor: '#FFA611',
+        backgroundColor: colors.secondary,
         borderColor: '#FFA611',
         borderWidth: 1,
         borderRadius: 5,

@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button, Image } from 'react-native'
 import * as firebase from 'firebase'
-
-class Login extends React.Component {
+import colors from "../config/colors.js"
+import { withOrientation } from 'react-navigation'
+export default class Login extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -23,6 +24,7 @@ class Login extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Image source = {require('../assets/logoCircle.png')}/>
                 <TextInput
                     style={styles.inputBox}
                     value={this.state.email}
@@ -42,6 +44,7 @@ class Login extends React.Component {
                 </TouchableOpacity>
                 <Button
                     title="Don't have an account yet? Sign up"
+                    color={colors.secondary}
                     onPress={() => this.props.navigation.navigate('Signup')}
                 />
             </View>
@@ -52,7 +55,7 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingVertical: 5,
         alignItems: 'center',
-        backgroundColor: '#F6820D',
+        backgroundColor: colors.secondary,
         borderColor: '#F6820D',
         borderWidth: 1,
         borderRadius: 5,
@@ -82,8 +85,17 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     buttonSignup: {
-        fontSize: 12
+        fontSize: 12,
+        color: colors.secondary
+    },
+    topView: {
+        width: '100%',
+        height: '7%',
+        backgroundColor: colors.primary
+    },
+    logoIcon: {
+        height: "30%"
     }
 })
 
-export default Login
+// export default Login
