@@ -7,12 +7,14 @@ import {
   Text,
   Image,
   Button,
+  SafeAreaView,
+  ScrollView
 } from "react-native";
 import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { updateEmail, updatePassword, signup, updateRF, updateAddress } from "../actions/user";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, updateLAT, updateLNG, login, getUser } from "../actions/user";
 
 class Signup extends React.Component {
   handleSignUp = () => {
@@ -22,11 +24,12 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image
           source={require("../assets/logoCircle.png")}
-          style={{ height: "27%" }}
+          style={{ height: "27%"}}
         />
+        <ScrollView height="100%" contentContainerStyle={{ flexGrow: 1, paddingLeft: "5%", width: 300,justifyContent: 'center' }}>
         <TextInput
           style={styles.inputBox}
           value={this.props.user.email}
@@ -53,6 +56,19 @@ class Signup extends React.Component {
           onChangeText={(address) => this.props.updateAddress(address)}
           placeholder="Address"
         />
+        <TextInput
+          style={styles.inputBox}
+          value={this.props.user.lat}
+          onChangeText={(lat) => this.props.updateLAT(lat)}
+          placeholder="Latitude"
+        />
+        <TextInput
+          style={styles.inputBox}
+          value={this.props.user.lng}
+          onChangeText={(lng) => this.props.updateLNG(lng)}
+          placeholder="Longitude"
+        />
+                </ScrollView>
         <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
           <Text style={styles.buttonText}>Signup</Text>
         </TouchableOpacity>
@@ -61,7 +77,8 @@ class Signup extends React.Component {
           color={colors.secondary}
           onPress={() => this.props.navigation.navigate("Login")}
         />
-      </View>
+
+      </SafeAreaView>
     );
   }
 }
@@ -105,7 +122,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, updateRF, updateAddress, signup },
+    { updateEmail, updatePassword, updateRF, updateAddress, updateLAT, updateLNG, signup },
     dispatch
   );
 };

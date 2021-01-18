@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
 import { bindActionCreators } from "redux";
-import { updateEmail, updatePassword, signup, updateRF, updateAddress, login, getUser } from "../actions/user";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, updateLAT, updateLNG, login, getUser } from "../actions/user";
 
 class HomePage extends React.Component {
 
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, updateRF, login, getUser },
+    { updateEmail, updatePassword, updateRF, updateAddress, updateLAT, updateLNG, signup },
     dispatch
   );
 };

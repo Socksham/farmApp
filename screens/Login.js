@@ -13,13 +13,7 @@ import colors from "../config/colors.js";
 import { withOrientation } from "react-navigation";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {
-  updateEmail,
-  updatePassword,
-  login,
-  getUser,
-  updateRF,
-} from "../actions/user";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, updateLAT, updateLNG, login, getUser } from "../actions/user";
 import Firebase from "../config/Firebase";
 class Login extends React.Component {
   componentDidMount = () => {
@@ -118,7 +112,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, updateRF, login, getUser },
+    { updateEmail, updatePassword, updateRF, updateAddress, updateLAT, updateLNG, signup, getUser, login },
     dispatch
   );
 };

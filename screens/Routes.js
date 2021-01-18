@@ -17,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MapsPage from "./MapsPage";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { updateEmail, updatePassword, signup, updateRF, updateAddress, login, getUser } from "../actions/user";
+import { updateEmail, updatePassword, signup, updateRF, updateAddress, updateLAT, updateLNG, login, getUser } from "../actions/user";
 
 const Tabs = createBottomTabNavigator();
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, updateRF, login, getUser },
+    { updateEmail, updatePassword, updateRF, updateAddress, updateLAT, updateLNG, signup },
     dispatch
   );
 };
