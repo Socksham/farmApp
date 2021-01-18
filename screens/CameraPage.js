@@ -35,6 +35,7 @@ import * as Permissions from "expo-permissions";
 import axios from 'axios'; 
 import { sharedStyles } from '../../SHARED/_shared';
 
+let url = "https://newnamefarmapp.herokuapp.com/";
 const Clarifai = require('clarifai');
 const clarifai = new Clarifai.App({
     apiKey: '78862fcd85b94280941e158a27dec5a5',
@@ -135,6 +136,13 @@ class CameraPage extends React.Component {
       });
     }
     
+    getFetch=()=>{
+      fetch(url).then((response)=>{
+          console.log("succes fetch :",response)
+      }).catch((error)=>{
+          console.log("fail fetch :",error)
+      })
+  }
   
     render(){
       const { hasPermission } = this.state
@@ -185,6 +193,8 @@ class CameraPage extends React.Component {
                         style={{ color: "#fff", fontSize: 40}}
                     />
                   </TouchableOpacity>
+                  <Button onPress={()=>this.getFetch()} title={"get fetch"}></Button>
+
                 </View>
               </Camera>
           </View>
@@ -238,37 +248,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraPage);
 
-var url = "https://newnamefarmapp.herokuapp.com/";
-
-export default class PrevCommune extends Component {
-    constructor(props){
-        super(props);
-        this.navigation=this.props.navigation;
-    };
-
-    getAxios=()=>{
-        axios.get(`${url}`).then((response)=>{
-            console.log("succes axios :",response);
-        }).catch((error)=>{
-            console.log("fail axios :", error);
-        });
-    };
-
-    getFetch=()=>{
-        fetch(url).then((response)=>{
-            console.log("succes fetch :",response)
-        }).catch((error)=>{
-            console.log("fail fetch :",error)
-        })
-    }
-
-    render(){
-        return (
-            <View style={sharedStyles.mainContainer}>
-                <Button onPress={()=>this.getAxios()} title={"get axios"}></Button>
-
-                <Button onPress={()=>this.getFetch()} title={"get fetch"}></Button>
-                </View>
-        )}
-}
 
