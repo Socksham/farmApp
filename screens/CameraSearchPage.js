@@ -5,7 +5,7 @@ import { ImageBackground } from "react-native";
 import { SafeAreaView, Text, FlatList,TouchableOpacity,TouchableWithoutFeedback, Linking } from "react-native";
 import { View, TextInput, StyleSheet, Image } from "react-native";
 import { SearchBar } from "react-native-elements";
-import colors from "../src/config/colors.js";
+import colors from "../config/colors";
 
 let start = "http://www.recipepuppy.com/api/?q=";
 let results = [];
@@ -34,7 +34,7 @@ const CameraSearchPage = () => {
         >
           <Image
             style={{ resizeMode: "contain", height: "80%" }}
-            source={require("../pictures/logo2.jpg")}
+            source={require("../assets/logo.png")}
           ></Image>
         </View>
         {/* <SafeAreaView style={styles.container}>
@@ -50,18 +50,13 @@ const CameraSearchPage = () => {
         <FlatList
           data={results}
           extraData={results}
-          keyExtractor={(item) => item.thumbnail}
+          keyExtractor={(item) => item.cached_page_link}
           renderItem={({ item }) => {
             return (
-              <TouchableWithoutFeedback onPress={() => Linking.openURL(item.href)}>
-                <ImageBackground
-                blurRadius={1}
-        o        source={{uri:item.thumbnail}}
-                style={styles.postElement}
-                >
+              <TouchableWithoutFeedback onPress={() => Linking.openURL(item.cached_page_link)}>
+                <View>
                 <Text style={styles.postTitle}>{item.title}</Text>
-                <Text style={styles.postSubtitle}>Main Ingredients: {item.ingredients}</Text>
-                </ImageBackground>
+                </View>
               </TouchableWithoutFeedback>
             );
           }}
