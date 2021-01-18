@@ -8,7 +8,6 @@ import {
   Image,
   Button,
   SafeAreaView,
-  ScrollView
 } from "react-native";
 import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
@@ -27,9 +26,8 @@ class Signup extends React.Component {
       <SafeAreaView style={styles.container}>
         <Image
           source={require("../assets/logoCircle.png")}
-          style={{ height: "27%"}}
+          style={{ top: 5, height: "10%", resizeMode: "contain"}}
         />
-        <ScrollView height="100%" contentContainerStyle={{ flexGrow: 1, paddingLeft: "5%", width: 300,justifyContent: 'center' }}>
         <TextInput
           style={styles.inputBox}
           value={this.props.user.email}
@@ -68,7 +66,6 @@ class Signup extends React.Component {
           onChangeText={(lng) => this.props.updateLNG(lng)}
           placeholder="Longitude"
         />
-                </ScrollView>
         <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
           <Text style={styles.buttonText}>Signup</Text>
         </TouchableOpacity>

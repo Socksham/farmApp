@@ -32,7 +32,7 @@ class Login extends React.Component {
       <View style={styles.container}>
         <Image
           source={require("../assets/logoCircle.png")}
-          style={{ height: "27%" }}
+          style={{ height: "27%", resizeMode:"contain" }}
         />
         <TextInput
           style={styles.inputBox}
