@@ -3,8 +3,8 @@
 // import { Icon } from 'react-native-elements'
 // import { FileSystem } from 'expo-file-system';
 import * as FileSystem from "expo-file-system";
-import * as tf from '@tensorflow/tfjs'
-import {decodeJpeg, fetch} from '@tensorflow/tfjs-react-native';
+// import * as tf from '@tensorflow/tfjs'
+// import {decodeJpeg, fetch} from '@tensorflow/tfjs-react-native';
 import { connect } from "react-redux";
 import Firebase from "../config/Firebase";
 import colors from "../config/colors.js";
@@ -32,10 +32,7 @@ import {
 // import * as ImageManipulator from 'expo-image-manipulator'
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
-import axios from 'axios'; 
-import { sharedStyles } from '../../SHARED/_shared';
 
-let url = "https://newnamefarmapp.herokuapp.com/";
 const Clarifai = require('clarifai');
 const clarifai = new Clarifai.App({
     apiKey: '78862fcd85b94280941e158a27dec5a5',
@@ -53,21 +50,7 @@ class CameraPage extends React.Component {
       this.getPermissionAsync()
     }
 
-    getAxios=()=>{
-        axios.get(`${url}`).then((response)=>{
-            console.log("succes axios :",response);
-        }).catch((error)=>{
-            console.log("fail axios :", error);
-        });
-    };
 
-    getFetch=()=>{
-        fetch(url).then((response)=>{
-            console.log("succes fetch :",response)
-        }).catch((error)=>{
-            console.log("fail fetch :",error)
-        })
-    }
   
     getPermissionAsync = async () => {
       // Camera roll Permission 
@@ -114,19 +97,9 @@ class CameraPage extends React.Component {
       if (this.camera) {
         let photo = await this.camera.takePictureAsync();
         const fileUri = photo.uri;
-        console.log("GOT URI")
-        const imgB64 = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.Base64, });
-        console.log("IMG64 DONE")
-        await tf.ready()
-        const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
-        console.log("IMG BUFFER DONE")
-        const raw = new Uint8Array(imgBuffer)
-        console.log("RAW")
-        const imageTensor = decodeJpeg(raw);
-        console.log(imageTensor)
-        // let resized = await this.resize(fileUri);
-        // let prediction = await this.predict(resized)
-        // console.log(prediction)
+        let resized = await this.resize(fileUri);
+        let prediction = await this.predict(resized)
+        console.log(prediction)
       }
     }
   
@@ -136,13 +109,6 @@ class CameraPage extends React.Component {
       });
     }
     
-    getFetch=()=>{
-      fetch(url).then((response)=>{
-          console.log("succes fetch :",response)
-      }).catch((error)=>{
-          console.log("fail fetch :",error)
-      })
-  }
   
     render(){
       const { hasPermission } = this.state
@@ -193,8 +159,6 @@ class CameraPage extends React.Component {
                         style={{ color: "#fff", fontSize: 40}}
                     />
                   </TouchableOpacity>
-                  <Button onPress={()=>this.getFetch()} title={"get fetch"}></Button>
-
                 </View>
               </Camera>
           </View>
@@ -247,5 +211,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraPage);
-
-
