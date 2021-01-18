@@ -1,213 +1,133 @@
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View,SafeAreaView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
-// import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
+import { Camera } from 'expo-camera';
 // import { FileSystem } from 'expo-file-system';
-import * as FileSystem from "expo-file-system";
-// import * as tf from '@tensorflow/tfjs'
-// import {decodeJpeg, fetch} from '@tensorflow/tfjs-react-native';
-import { connect } from "react-redux";
-import Firebase from "../config/Firebase";
-import colors from "../config/colors.js";
-import { bindActionCreators } from "redux";
-import React from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity,Platform, } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import {
-    FontAwesome,
-    Ionicons,
-    MaterialCommunityIcons,
-  } from "@expo/vector-icons";
+import * as FileSystem from 'expo-file-system';
+import * as tf from '@tensorflow/tfjs'
+import {decodeJpeg, fetch} from '@tensorflow/tfjs-react-native';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
+
+import colors from "../config/colors"
 import * as ImageManipulator from 'expo-image-manipulator'
-import {
-  updateEmail,
-  updatePassword,
-  signup,
-  updateRF,
-  updateAddress,
-  updateLAT,
-  updateLNG,
-  login,
-  getUser,
-} from "../actions/user";
-// import * as ImageManipulator from 'expo-image-manipulator'
-import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
-
 const Clarifai = require('clarifai');
-const clarifai = new Clarifai.App({
+
+export default function CameraScreen() {
+  let results = []
+  // cameraRef = React.createRef()
+  const clarifai = new Clarifai.App({
     apiKey: '78862fcd85b94280941e158a27dec5a5',
-});
+  });
+  const navigation = useNavigation();
+  const [cameraRef, setCameraRef] = useState(React.createRef())
 
-class CameraPage extends React.Component {
-    state = {
-      hasPermission: null,
-      cameraType: Camera.Constants.Type.back,
-    }
+  const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+
+  const predict = async (image) => {
+    let predictions = await clarifai.models.predict(
+      Clarifai.FOOD_MODEL,
+      image
+    );
+    return predictions;
+  };
+
+  const resize = async (photo) => {
+    let manipulatedImage = await ImageManipulator.manipulateAsync(
+      photo,
+      [{ resize: { height: 300, width: 300 } }],
+      { base64: true }
+    );
+    return manipulatedImage.base64;
+  };
 
 
-  
-    async componentDidMount() {
-      this.getPermissionAsync()
-    }
-
-
-  
-    getPermissionAsync = async () => {
-      // Camera roll Permission 
-      if (Platform.OS === 'ios') {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-      // Camera Permission
-      const { status } = await Permissions.askAsync(Permissions.CAMERA);
-      this.setState({ hasPermission: status === 'granted' });
-    }
-  
-    handleCameraType=()=>{
-      const { cameraType } = this.state
-  
-      this.setState({cameraType:
-        cameraType === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
-      })
-    }
-
-    resize = async (photo) => {
-        let manipulatedImage = await ImageManipulator.manipulateAsync(
-          photo,
-          [{ resize: { height: 300, width: 300 } }],
-          { base64: true }
-        );
-        return manipulatedImage.base64;
-    };
-
-    predict = async (image) => {
-        let predictions = await clarifai.models.predict(
-          Clarifai.FOOD_MODEL,
-          image
-        );
-        return predictions;
-      };
-    
-  
-    takePicture = async () => {
-      if (this.camera) {
-        let photo = await this.camera.takePictureAsync();
-        const fileUri = photo.uri;
-        let resized = await this.resize(fileUri);
-        let prediction = await this.predict(resized)
-        console.log(prediction)
-      }
-    }
-  
-    pickImage = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images
-      });
-    }
-    
-  
-    render(){
-      const { hasPermission } = this.state
-      if (hasPermission === null) {
-        return <View />;
-      } else if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-      } else {
-        return (
-            <View style={{ flex: 1 }}>
-              <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
-                <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent'                 
-                    }}
-                    onPress={()=>this.pickImage()}>
-                    <Ionicons
-                        name="ios-photos"
-                        style={{ color: "#fff", fontSize: 40}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={()=>this.takePicture()}
-                    >
-                    <FontAwesome
-                        name="camera"
-                        style={{ color: "#fff", fontSize: 40}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={()=>this.handleCameraType()}
-                    >
-                    <MaterialCommunityIcons
-                        name="camera-switch"
-                        style={{ color: "#fff", fontSize: 40}}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </Camera>
-          </View>
-        );
-      }
-    }
-    
+  const _takePicture = async () => {
+    console.log("Loading...")
+    console.log("_______________________________________________________-")
+    const photo = await cameraRef.current.takePictureAsync()
+    const fileUri = photo.uri;
+    let resized = await resize(fileUri);
+    let prediction = await predict(resized)
+    prediction = prediction.outputs[0].data.concepts
+    console.log(prediction)
+    // prediction = search(prediction)
+    console.log("PREDICTION") 
+    // const imgB64 = await FileSystem.readAsStringAsync(fileUri, {
+    //   encoding: FileSystem.EncodingType.Base64,
+    // });
+    navigation.navigate("CameraPicture", {prediction: prediction});
   }
+
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Camera ref={cameraRef} style={{ flex: 1 }} type={type}>
+        <View style={styles.innerCameraView}>
+          <Icon
+            name = "flip-camera-ios"
+            size = {70}
+            style = {styles.flipIcon}
+            color = "white"
+            onPress = {() => {
+              setType(
+                type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+            }} />
+          <Icon
+            name = "stop-circle"
+            size = {70}
+            style = {styles.snapIcon}
+            color = "white"
+            onPress = {_takePicture}
+           />
+        </View>
+      </Camera>
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   innerCameraView: {
-    width: "93%",
+    width: '93%', 
     height: 70,
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    alignSelf: "center",
-    position: "absolute",
-    bottom: 10,
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 10
   },
-  flipIcon: {},
-  snapIcon: {},
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      updateEmail,
-      updatePassword,
-      updateRF,
-      updateAddress,
-      updateLAT,
-      updateLNG,
-      signup,
-    },
-    dispatch
-  );
-};
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CameraPage);
+  flipIcon: {
+    
+  },
+  snapIcon: {
+    
+  }
+})

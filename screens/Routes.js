@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomePage from "../screens/HomePage";
-import CameraPage from "../screens/CameraPage"
+import CameraStackNavigator from "../screens/CameraStackNavigator"
 import colors from "../config/colors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,8 +25,8 @@ function Home() {
   return <HomePage />;
 }
 
-function Camera(){
-  return <CameraPage />
+function CameraStack(){
+  return <CameraStackNavigator />
 }
 
 function Maps(){
@@ -39,7 +39,7 @@ class Routes extends React.Component {
        <NavigationContainer>
         <Tabs.Navigator initialRouteName="Home">
             <Tabs.Screen name="Home" component={Home}/>
-            <Tabs.Screen name="Camera" component={Camera}/>
+            <Tabs.Screen name="CameraStack" component={CameraStack}/>
             <Tabs.Screen name="Maps" component={Maps}/>
          </Tabs.Navigator>
       </NavigationContainer>
