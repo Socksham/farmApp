@@ -132,7 +132,6 @@ class HomePage extends React.Component {
       <Fragment>
         <SafeAreaView style={{ flex: 0, backgroundColor: colors.primary }} />
         <SafeAreaView style={{ flex: 1 }}>
-          <Text>{this.props.user.rf}</Text>
           <View
             style={{
               height: "10%",
