@@ -118,7 +118,7 @@ class MapsPage extends React.Component {
                       longitude: parseInt(todo.lng),
                     }}
                     title={todo.email}
-                    description={todo.email}
+                    description={todo.address}
                   />
                 );
               })}
