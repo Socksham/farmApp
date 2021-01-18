@@ -9,6 +9,7 @@ import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import {updateEmail, updatePassword, signup, updateRF, updateAddress, updateLAT, updateLNG, login, getUser,}from "../actions/user";
 import { bindActionCreators } from "redux";
+import colors from '../config/colors'
 
 const StackNavigator = createStackNavigator();
 

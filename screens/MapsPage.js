@@ -123,7 +123,6 @@ class MapsPage extends React.Component {
                 );
               })}
           </MapView>
-          <Button title="Logout" onPress={this.handleSignout} />
         </SafeAreaView>
       </Fragment>
     );
